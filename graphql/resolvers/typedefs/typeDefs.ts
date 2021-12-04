@@ -7,12 +7,13 @@ const typeDefs = gql`
     lastName: String!
     email: String!
     password: String!
-    bucketListItems: [String]
+    travelBucketList: [String]
+    educationalBucketList: [String]
+    personalBucketList: [String]
   }
 
   type TravelBucketListItem {
     _id: String
-    user_id: String
     category: String!
     title: String!
     about: String!
@@ -22,12 +23,11 @@ const typeDefs = gql`
     latitude: String!
     longitude: String!
     country: String!
-    city: String
+    city: String! 
   }
 
   type EducationalBucketListItem {
     _id: String
-    user_id: String
     category: String!
     title: String!
     about: String!
@@ -41,7 +41,6 @@ const typeDefs = gql`
 
   type PersonalBucketListItem {
     _id: String
-    user_id: String
     category: String!
     title: String!
     about: String!

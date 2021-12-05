@@ -56,4 +56,41 @@ const typeDefs = gql`
   type Query {
   getBucketListItems: [TravelBucketListItem | EducationalBucketListItem | PersonalBucketListItem]
   }
+
+  type Mutation {
+  createUser(registrationInput: RegistrationUserInput): UserInfo!
+  loginUser(loginInput: LoginUserInput): UserInfo!
+  addTravelBucketListItem(travelItemInput: TravelBucketListItem, userInfo: UserInfo): ConfirmationMessage!
+  addEducationalBucketListItem(educationalItemInput: EducationalBucketListItem, userInfo: UserInfo): ConfirmationMessage!
+  addPersonalBucketListItem(personalItemInput: PersonalBucketListItem, userInfo: UserInfo): ConfirmationMessage!
+  updateBucketListItem(item: TravelBucketListItem|EducationalBucketListItem|PersonalBucketListItem): ConfirmationMessage!
+  deleteBucketListItem(deleteItemId: DeleteItemInput): ConfirmationMessage!
+  }
+
+  type RegistrationUserInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+  }
+
+  type LoginUserInput {
+  email: String
+  password: String
+  }
+
+  type UserInfo {
+  _id: String!
+  accessToke: String!
+  }
+
+  type ConfirmationMessage {
+  message: String
+  }
+
+  type DeleteItemInput {
+  _id: String
+  }
 `;
+
+export = typeDefs;

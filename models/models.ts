@@ -1,3 +1,5 @@
+import exp from "constants";
+
 const mongoose = require("./db");
 
 const Schema = mongoose.Schema;
@@ -19,25 +21,19 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  travelBucketList: [
-    {
-      type: String,
-    },
-  ],
-  educationalBucketList: [
-    {
-      type: String,
-    },
-  ],
-  personalBucketList: [
+  bucketListItems: [
     {
       type: String,
     },
   ],
 });
 
-const TravelSchema = new Schema({
+const travelSchema = new Schema({
   category: {
+    type: String,
+    required: true,
+  },
+  userId: {
     type: String,
     required: true,
   },
@@ -79,8 +75,12 @@ const TravelSchema = new Schema({
   },
 });
 
-const EducationalSchema = new Schema({
+const educationalSchema = new Schema({
   category: {
+    type: String,
+    required: true,
+  },
+  userId: {
     type: String,
     required: true,
   },
@@ -118,8 +118,12 @@ const EducationalSchema = new Schema({
   },
 });
 
-const PersonalSchema = new Schema({
+const personalSchema = new Schema({
   category: {
+    type: String,
+    required: true,
+  },
+  userId: {
     type: String,
     required: true,
   },
@@ -156,3 +160,10 @@ const PersonalSchema = new Schema({
     required: true,
   },
 });
+
+const UserModel = mongoose.model("User", userSchema);
+const TravelModel = mongoose.model("TravelItem", travelSchema);
+const EducationalModel = mongoose.model("EducationalItem", educationalSchema);
+const PersonalModel = mongoose.model("PersonalItem", personalSchema);
+
+export = { UserModel, TravelModel, EducationalModel, PersonalModel };

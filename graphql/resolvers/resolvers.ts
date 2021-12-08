@@ -7,14 +7,17 @@ const {
 const { AuthenticationError } = require('apollo-server');
 const bcrypt = require('bcrypt');
 import { create } from 'domain';
-import { IRegistrationInput } from '../../interfaces/interfaces';
+import {
+  IRegistrationUserInput,
+  ILoginUserInput,
+} from '../../interfaces/interfaces';
 import { createToken } from './auth';
 
 module.exports = {
   Mutation: {
     createUser: async (
       _: any,
-      { registrationInput }: { registrationInput: IRegistrationInput },
+      { registrationInput }: { registrationInput: IRegistrationUserInput },
     ) => {
       const { firstName, lastName, email, password } = registrationInput;
       const user = await UserModel.findOne({ email: email });
@@ -32,6 +35,25 @@ module.exports = {
         });
         const _idString = user._id.toString();
         const token = await createToken(_idString);
+        return { _id: user._id, accessToken: token };
+      }
+    },
+    loginUser: async (
+      _: any,
+      { loginInput }: { loginInput: ILoginUserInput },
+    ) => {
+      console.log(loginInput);
+      const { email, password } = loginInput;
+      const user = await UserModel.findOne({ email: email });
+      if (!user) {
+        throw new AuthenticationError('There was an error logging in');
+      }
+      const validatedPassword = bcrypt.compare(password, user.password);
+      if (!validatedPassword) {
+        throw new AuthenticationError('There was an error logging in');
+      } else {
+        const _idString = user._id.toString();
+        const token = createToken(_idString);
         return { _id: user._id, accessToken: token };
       }
     },

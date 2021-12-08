@@ -105,7 +105,7 @@ const typeDefs = gql`
 
   input InputUserInfo {
     _id: String!
-    accessToke: String!
+    accessToken: String!
   }
 
   input TravelBucketListInput {

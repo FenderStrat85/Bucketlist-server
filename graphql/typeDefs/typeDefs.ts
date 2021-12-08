@@ -1,4 +1,4 @@
-const { gql } = require("apollo-server");
+const { gql } = require('apollo-server');
 
 const typeDefs = gql`
   type User {
@@ -96,7 +96,7 @@ const typeDefs = gql`
 
   type UserInfo {
     _id: String!
-    accessToke: String!
+    accessToken: String!
   }
 
   type ConfirmationMessage {

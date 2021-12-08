@@ -1,6 +1,6 @@
-import exp from "constants";
+import exp from 'constants';
 
-const mongoose = require("./db");
+const mongoose = require('./db');
 
 const Schema = mongoose.Schema;
 
@@ -161,9 +161,9 @@ const personalSchema = new Schema({
   },
 });
 
-const UserModel = mongoose.model("User", userSchema);
-const TravelModel = mongoose.model("TravelItem", travelSchema);
-const EducationalModel = mongoose.model("EducationalItem", educationalSchema);
-const PersonalModel = mongoose.model("PersonalItem", personalSchema);
+const UserModel = mongoose.model('User', userSchema);
+const TravelModel = mongoose.model('TravelItem', travelSchema);
+const EducationalModel = mongoose.model('EducationalItem', educationalSchema);
+const PersonalModel = mongoose.model('PersonalItem', personalSchema);
 
 export = { UserModel, TravelModel, EducationalModel, PersonalModel };

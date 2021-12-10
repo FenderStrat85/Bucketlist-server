@@ -1,7 +1,7 @@
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 const secret = process.env.JWT_SECRET;
-const { UserModel } = require("../../models/models");
+const { UserModel } = require('../../models/models');
 
 const createToken = async (id: string) => {
   return jwt.sign(id, secret);
@@ -9,8 +9,11 @@ const createToken = async (id: string) => {
 
 const getUserFromToken = async (token: string) => {
   try {
+    //headers cannot be passed as a string
     const userId = jwt.verify(token, secret);
-    return await UserModel.findOne({ _id: userId });
+    const user = await UserModel.findOne({ _id: userId });
+    console.log(user);
+    return user;
   } catch (error) {
     return null;
   }

@@ -10,6 +10,8 @@ import { create } from 'domain';
 import {
   IRegistrationUserInput,
   ILoginUserInput,
+  ITravelBucketListInput,
+  IInputUserInfo,
 } from '../../interfaces/interfaces';
 import { createToken } from './auth';
 
@@ -55,6 +57,18 @@ module.exports = {
         const _idString = user._id.toString();
         const token = createToken(_idString);
         return { _id: user._id, accessToken: token };
+      }
+    },
+    addTravelBucketListItem: async (
+      _: any,
+      { travelItemInput }: { travelItemInput: ITravelBucketListInput },
+      context: any,
+    ) => {
+      console.log(context.user);
+      if (!context.user) {
+        return { message: 'Failed to add' };
+      } else {
+        return { message: 'Added successfully' };
       }
     },
   },

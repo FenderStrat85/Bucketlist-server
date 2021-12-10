@@ -62,7 +62,6 @@ const typeDefs = gql`
     loginUser(loginInput: LoginUserInput): UserInfo!
     addTravelBucketListItem(
       travelItemInput: TravelBucketListInput
-      userInfo: InputUserInfo
     ): ConfirmationMessage!
     addEducationalBucketListItem(
       educationalItemInput: EducationalBucketListInput

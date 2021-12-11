@@ -21,7 +21,17 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  bucketListItems: [
+  travelBucketListItems: [
+    {
+      type: String,
+    },
+  ],
+  educationalBucketListItems: [
+    {
+      type: String,
+    },
+  ],
+  personalBucketListItems: [
     {
       type: String,
     },
@@ -113,7 +123,6 @@ const educationalSchema = new Schema({
   },
   completedOnTime: {
     type: Boolean,
-    required: true,
   },
 });
 
@@ -156,7 +165,6 @@ const personalSchema = new Schema({
   },
   completedOnTime: {
     type: Boolean,
-    required: true,
   },
 });
 

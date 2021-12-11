@@ -8,11 +8,13 @@ const { AuthenticationError } = require('apollo-server');
 const bcrypt = require('bcrypt');
 import { create } from 'domain';
 import { userInfo } from 'os';
+import { isContext } from 'vm';
 import {
   IRegistrationUserInput,
   ILoginUserInput,
   ITravelBucketListInput,
   IInputUserInfo,
+  IEducationalBucketListInput,
 } from '../../interfaces/interfaces';
 import { createToken } from './auth';
 
@@ -65,7 +67,6 @@ module.exports = {
       { travelItemInput }: { travelItemInput: ITravelBucketListInput },
       context: any,
     ) => {
-      console.log(context.user);
       if (!context.user) {
         return { message: 'Failed to add' };
       } else {
@@ -92,10 +93,49 @@ module.exports = {
           dateCompleted: dateCompleted,
           latitude: latitude,
           longitude: longitude,
-          country: city,
+          country: country,
           city: city,
         });
-        user.bucketListItems.push(newTravelItem._id);
+        user.travelBucketListItems.push(newTravelItem._id);
+        user.save();
+        return { message: 'Added successfully' };
+      }
+    },
+    addEducationalBucketListItem: async (
+      _: any,
+      {
+        educationalItemInput,
+      }: { educationalItemInput: IEducationalBucketListInput },
+      context: any,
+    ) => {
+      if (!context.user) {
+        return { message: 'Failed to add' };
+      } else {
+        const user = context.user;
+        const {
+          category,
+          title,
+          about,
+          subject,
+          desiredGoal,
+          reasonForLearning,
+          desiredCompletionDate,
+          completed,
+          completedOnTime,
+        } = educationalItemInput;
+        const newEducationalItem = await EducationalModel.create({
+          userId: user._id,
+          category: category,
+          title: title,
+          about: about,
+          subject: subject,
+          desiredGoal: desiredGoal,
+          reasonForLearning: reasonForLearning,
+          desiredCompletionDate: desiredCompletionDate,
+          completed: completed,
+          completedOnTime: completedOnTime,
+        });
+        user.educationalBucketListItems.push(newEducationalItem._id);
         user.save();
         return { message: 'Added successfully' };
       }

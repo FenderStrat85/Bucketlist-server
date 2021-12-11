@@ -24,6 +24,19 @@ export interface ITravelBucketListInput {
   city: string;
 }
 
+export interface IEducationalBucketListInput {
+  userId: string;
+  category: string;
+  title: string;
+  about: string;
+  subject: string;
+  desiredGoal: string;
+  reasonForLearning: string;
+  desiredCompletionDate: string;
+  completed: boolean;
+  completedOnTime: boolean;
+}
+
 export interface IInputUserInfo {
   _id: string;
   accessToken: string;

@@ -55,7 +55,6 @@ const travelSchema = new Schema({
   },
   dateCompleted: {
     type: String,
-    required: true,
   },
   latitude: {
     type: String,

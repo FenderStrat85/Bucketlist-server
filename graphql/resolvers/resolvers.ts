@@ -7,6 +7,7 @@ const {
 const { AuthenticationError } = require('apollo-server');
 const bcrypt = require('bcrypt');
 import { create } from 'domain';
+import { userInfo } from 'os';
 import {
   IRegistrationUserInput,
   ILoginUserInput,
@@ -68,6 +69,34 @@ module.exports = {
       if (!context.user) {
         return { message: 'Failed to add' };
       } else {
+        const user = context.user;
+        const {
+          category,
+          title,
+          about,
+          cloudinaryPhotoUrl,
+          completed,
+          dateCompleted,
+          latitude,
+          longitude,
+          country,
+          city,
+        } = travelItemInput;
+        const newTravelItem = await TravelModel.create({
+          category: category,
+          userId: user._id,
+          title: title,
+          about: about,
+          cloudinaryPhotoUrl: cloudinaryPhotoUrl,
+          completed: completed,
+          dateCompleted: dateCompleted,
+          latitude: latitude,
+          longitude: longitude,
+          country: city,
+          city: city,
+        });
+        user.bucketListItems.push(newTravelItem._id);
+        user.save();
         return { message: 'Added successfully' };
       }
     },

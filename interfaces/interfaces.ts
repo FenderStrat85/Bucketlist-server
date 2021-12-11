@@ -37,6 +37,19 @@ export interface IEducationalBucketListInput {
   completedOnTime: boolean;
 }
 
+export interface IPersonalBucketListInput {
+  userId: string;
+  category: string;
+  title: string;
+  about: string;
+  areaOfLife: string;
+  desiredGoal: string;
+  reasonForGoal: string;
+  desiredCompletionDate: string;
+  completed: boolean;
+  completedOnTime: boolean;
+}
+
 export interface IInputUserInfo {
   _id: string;
   accessToken: string;

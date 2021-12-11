@@ -15,6 +15,7 @@ import {
   ITravelBucketListInput,
   IInputUserInfo,
   IEducationalBucketListInput,
+  IPersonalBucketListInput,
 } from '../../interfaces/interfaces';
 import { createToken } from './auth';
 
@@ -136,6 +137,43 @@ module.exports = {
           completedOnTime: completedOnTime,
         });
         user.educationalBucketListItems.push(newEducationalItem._id);
+        user.save();
+        return { message: 'Added successfully' };
+      }
+    },
+    addPersonalBucketListItem: async (
+      _: any,
+      { personalItemInput }: { personalItemInput: IPersonalBucketListInput },
+      context: any,
+    ) => {
+      if (!context.user) {
+        return { message: 'Failed to add' };
+      } else {
+        const user = context.user;
+        const {
+          category,
+          title,
+          about,
+          areaOfLife,
+          desiredGoal,
+          reasonForGoal,
+          desiredCompletionDate,
+          completed,
+          completedOnTime,
+        } = personalItemInput;
+        const newPersonalItem = await PersonalModel.create({
+          userId: user._id,
+          category: category,
+          title: title,
+          about: about,
+          areaOfLife: areaOfLife,
+          desiredGoal: desiredGoal,
+          reasonForGoal: reasonForGoal,
+          desiredCompletionDate: desiredCompletionDate,
+          completed: completed,
+          completedOnTime: completedOnTime,
+        });
+        user.personalBucketListItems.push(newPersonalItem._id);
         user.save();
         return { message: 'Added successfully' };
       }

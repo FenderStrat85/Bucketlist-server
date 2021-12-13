@@ -54,7 +54,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    getBucketListItems: [Items]
+    getBucketListItems: [SavedItems]
   }
 
   type Mutation {
@@ -69,15 +69,13 @@ const typeDefs = gql`
     addPersonalBucketListItem(
       personalItemInput: PersonalBucketListInput
     ): ConfirmationMessage!
-    updateBucketListItem(item: Items): ConfirmationMessage!
     deleteBucketListItem(deleteItemId: DeleteItemInput): ConfirmationMessage!
   }
 
-  enum Items {
-    TravelBucketListItem
-    EducationalBucketListItem
-    PersonalBucketListItem
-  }
+  union SavedItems =
+      TravelBucketListItem
+    | EducationalBucketListItem
+    | PersonalBucketListItem
 
   input RegistrationUserInput {
     firstName: String!

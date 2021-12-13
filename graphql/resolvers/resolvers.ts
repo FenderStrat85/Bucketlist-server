@@ -6,9 +6,7 @@ const {
 } = require('../../models/models');
 const { AuthenticationError } = require('apollo-server');
 const bcrypt = require('bcrypt');
-import { create } from 'domain';
-import { userInfo } from 'os';
-import { isContext } from 'vm';
+
 import {
   IRegistrationUserInput,
   ILoginUserInput,
@@ -20,6 +18,53 @@ import {
 import { createToken } from './auth';
 
 module.exports = {
+  SavedItems: {
+    __resolveType(obj: any) {
+      if (obj.latitude) {
+        return 'TravelBucketListItem';
+      }
+      if (obj.subject) {
+        return 'EducationalBucketListItem';
+      }
+      if (obj.areaOfLife) {
+        return 'PersonalBucketListItem';
+      }
+    },
+  },
+
+  Query: {
+    getBucketListItems: async (_: any, args: any, context: any) => {
+      if (!context.user) {
+        return { message: 'Unable to retrieve data' };
+      } else {
+        const {
+          educationalBucketListItems,
+          travelBucketListItems,
+          personalBucketListItems,
+        } = context.user;
+        const itemsToReturn = [];
+        for (let i = 0; i < educationalBucketListItems.length; i++) {
+          const item = await EducationalModel.findOne({
+            _id: educationalBucketListItems[i],
+          });
+          itemsToReturn.push(item);
+        }
+        for (let i = 0; i < travelBucketListItems.length; i++) {
+          const item = await TravelModel.findOne({
+            _id: travelBucketListItems[i],
+          });
+          itemsToReturn.push(item);
+        }
+        for (let i = 0; i < personalBucketListItems.length; i++) {
+          const item = await PersonalModel.findOne({
+            _id: personalBucketListItems[i],
+          });
+          itemsToReturn.push(item);
+        }
+        return itemsToReturn;
+      }
+    },
+  },
   Mutation: {
     createUser: async (
       _: any,

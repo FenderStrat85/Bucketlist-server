@@ -70,6 +70,7 @@ module.exports = {
       _: any,
       { registrationInput }: { registrationInput: IRegistrationUserInput },
     ) => {
+      console.log('registrationInput', registrationInput);
       const { firstName, lastName, email, password } = registrationInput;
       const user = await UserModel.findOne({ email: email });
       if (user) {
@@ -93,7 +94,7 @@ module.exports = {
       _: any,
       { loginInput }: { loginInput: ILoginUserInput },
     ) => {
-      console.log(loginInput);
+      console.log('loginInput', loginInput);
       const { email, password } = loginInput;
       const user = await UserModel.findOne({ email: email });
       if (!user) {

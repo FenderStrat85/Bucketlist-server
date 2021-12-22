@@ -92,6 +92,7 @@ const typeDefs = gql`
   type UserInfo {
     _id: String!
     accessToken: String!
+    firstName: String!
   }
 
   type ConfirmationMessage {

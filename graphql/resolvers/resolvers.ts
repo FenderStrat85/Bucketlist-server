@@ -87,7 +87,7 @@ module.exports = {
         });
         const _idString = user._id.toString();
         const token = await createToken(_idString);
-        return { _id: user._id, accessToken: token };
+        return { _id: user._id, accessToken: token, firstName: user.firstName };
       }
     },
     loginUser: async (
@@ -106,7 +106,7 @@ module.exports = {
       } else {
         const _idString = user._id.toString();
         const token = createToken(_idString);
-        return { _id: user._id, accessToken: token };
+        return { _id: user._id, accessToken: token, firstName: user.firstName };
       }
     },
     addTravelBucketListItem: async (

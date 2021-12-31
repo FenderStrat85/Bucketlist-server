@@ -34,6 +34,7 @@ module.exports = {
 
   Query: {
     getBucketListItems: async (_: any, args: any, context: any) => {
+      console.log('Inside getBucketListItems');
       if (!context.user) {
         return { message: 'Unable to retrieve data' };
       } else {

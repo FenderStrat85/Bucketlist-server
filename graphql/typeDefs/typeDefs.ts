@@ -65,10 +65,10 @@ const typeDefs = gql`
     ): ConfirmationMessage!
     addEducationalBucketListItem(
       educationalItemInput: EducationalBucketListInput
-    ): ConfirmationMessage!
+    ): EducationalBucketListItem!
     addPersonalBucketListItem(
       personalItemInput: PersonalBucketListInput
-    ): ConfirmationMessage!
+    ): PersonalBucketListItem!
     deleteBucketListItem(deleteItemId: DeleteItemInput): ConfirmationMessage!
   }
 

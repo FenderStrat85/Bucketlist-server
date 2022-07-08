@@ -7,6 +7,7 @@ const {
 const { AuthenticationError } = require('apollo-server');
 const bcrypt = require('bcrypt');
 
+import { updateSourceFileNode } from 'typescript';
 import {
   IRegistrationUserInput,
   ILoginUserInput,
@@ -62,6 +63,7 @@ module.exports = {
           });
           itemsToReturn.push(item);
         }
+        // console.log(itemsToReturn);
         return itemsToReturn;
       }
     },
@@ -171,6 +173,7 @@ module.exports = {
           completed,
           completedOnTime,
         } = educationalItemInput;
+        console.log('CATEGORY!!!!', category);
         const newEducationalItem = await EducationalModel.create({
           userId: user._id,
           category: category,
@@ -185,7 +188,19 @@ module.exports = {
         });
         user.educationalBucketListItems.push(newEducationalItem._id);
         user.save();
-        return { message: 'Added successfully' };
+        return {
+          _id: newEducationalItem._id,
+          userId: user._id,
+          category: category,
+          title: title,
+          about: about,
+          subject: subject,
+          desiredGoal: desiredGoal,
+          reasonForLearning: reasonForLearning,
+          desiredCompletionDate: desiredCompletionDate,
+          completed: completed,
+          completedOnTime: completedOnTime,
+        };
       }
     },
     addPersonalBucketListItem: async (
@@ -193,6 +208,7 @@ module.exports = {
       { personalItemInput }: { personalItemInput: IPersonalBucketListInput },
       context: any,
     ) => {
+      console.log('personalItemInput', personalItemInput);
       if (!context.user) {
         return { message: 'Failed to add' };
       } else {
@@ -222,7 +238,19 @@ module.exports = {
         });
         user.personalBucketListItems.push(newPersonalItem._id);
         user.save();
-        return { message: 'Added successfully' };
+        return {
+          _id: newPersonalItem._id,
+          userId: user._id,
+          category: category,
+          title: title,
+          about: about,
+          areaOfLife: areaOfLife,
+          desiredGoal: desiredGoal,
+          reasonForGoal: reasonForGoal,
+          desiredCompletionDate: desiredCompletionDate,
+          completed: completed,
+          completedOnTime: completedOnTime,
+        };
       }
     },
   },

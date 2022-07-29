@@ -54,3 +54,8 @@ export interface IInputUserInfo {
   _id: string;
   accessToken: string;
 }
+
+export interface IDeleteItemId {
+  _id: string;
+  category: string;
+}

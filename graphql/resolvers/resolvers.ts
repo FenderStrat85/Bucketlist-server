@@ -7,7 +7,6 @@ const {
 const { AuthenticationError } = require('apollo-server');
 const bcrypt = require('bcrypt');
 
-import { updateSourceFileNode } from 'typescript';
 import {
   IRegistrationUserInput,
   ILoginUserInput,
@@ -15,6 +14,7 @@ import {
   IInputUserInfo,
   IEducationalBucketListInput,
   IPersonalBucketListInput,
+  IDeleteItemId,
 } from '../../interfaces/interfaces';
 import { createToken } from './auth';
 
@@ -45,6 +45,7 @@ module.exports = {
           personalBucketListItems,
         } = context.user;
         const itemsToReturn = [];
+        console.log('educationalBucketListItems', educationalBucketListItems);
         for (let i = 0; i < educationalBucketListItems.length; i++) {
           const item = await EducationalModel.findOne({
             _id: educationalBucketListItems[i],
@@ -173,7 +174,6 @@ module.exports = {
           completed,
           completedOnTime,
         } = educationalItemInput;
-        console.log('CATEGORY!!!!', category);
         const newEducationalItem = await EducationalModel.create({
           userId: user._id,
           category: category,
@@ -251,6 +251,46 @@ module.exports = {
           completed: completed,
           completedOnTime: completedOnTime,
         };
+      }
+    },
+    deleteBucketListItem: async (
+      _: any,
+      { deleteItemInput }: { deleteItemInput: IDeleteItemId },
+      context: any,
+    ) => {
+      const { _id, category } = deleteItemInput;
+      if (!context.user) {
+        return { message: 'Failed to delete' };
+      } else {
+        const user = context.user;
+        if (category === 'Travel') {
+          const index = user.travelBucketListItems.findIndexOf(_id);
+          if (index > -1) {
+            await user.travelBucketListItems.splice(index, 1);
+            user.save();
+          }
+          await TravelModel.findOneAndDelete({ _id: _id });
+          return { message: 'Deleted successfully' };
+        }
+        if (category === 'Education') {
+          const index = user.educationalBucketListItems.indexOf(_id);
+          if (index > -1) {
+            await user.educationalBucketListItems.splice(index, 1);
+            user.save();
+          }
+          await EducationalModel.findOneAndDelete(_id);
+          return { message: 'Deleted successfully' };
+        }
+
+        if (category === 'Personal') {
+          const index = user.personalBucketListItems.findIndexOf(_id);
+          if (index > -1) {
+            await user.personalBucketListItems.splice(index, 1);
+            user.save();
+          }
+          await PersonalModel.findOneAndDelete(_id);
+          return { message: 'Deleted successfully' };
+        }
       }
     },
   },

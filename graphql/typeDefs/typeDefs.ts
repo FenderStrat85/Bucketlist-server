@@ -69,7 +69,7 @@ const typeDefs = gql`
     addPersonalBucketListItem(
       personalItemInput: PersonalBucketListInput
     ): PersonalBucketListItem!
-    deleteBucketListItem(deleteItemId: DeleteItemInput): ConfirmationMessage!
+    deleteBucketListItem(deleteItemInput: DeleteItemInput): ConfirmationMessage!
   }
 
   union SavedItems =
@@ -149,6 +149,7 @@ const typeDefs = gql`
 
   input DeleteItemInput {
     _id: String
+    category: String
   }
 `;
 

@@ -69,6 +69,12 @@ const typeDefs = gql`
     addPersonalBucketListItem(
       personalItemInput: PersonalBucketListInput
     ): PersonalBucketListItem!
+    updateEducationalBucketListItem(
+      educationalItemInput: EducationalBucketListInput
+    ): EducationalBucketListItem!
+    updatePersonalBucketListItem(
+      personalItemInput: PersonalBucketListInput
+    ): PersonalBucketListItem!
     deleteBucketListItem(deleteItemInput: DeleteItemInput): ConfirmationMessage!
   }
 

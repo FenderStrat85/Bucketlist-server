@@ -7,6 +7,7 @@ const {
 const { AuthenticationError } = require('apollo-server');
 const bcrypt = require('bcrypt');
 
+import { idText } from 'typescript';
 import {
   IRegistrationUserInput,
   ILoginUserInput,
@@ -35,7 +36,7 @@ module.exports = {
 
   Query: {
     getBucketListItems: async (_: any, args: any, context: any) => {
-      console.log('Inside getBucketListItems');
+      // console.log('Inside getBucketListItems');
       if (!context.user) {
         return { message: 'Unable to retrieve data' };
       } else {
@@ -45,7 +46,6 @@ module.exports = {
           personalBucketListItems,
         } = context.user;
         const itemsToReturn = [];
-        console.log('educationalBucketListItems', educationalBucketListItems);
         for (let i = 0; i < educationalBucketListItems.length; i++) {
           const item = await EducationalModel.findOne({
             _id: educationalBucketListItems[i],
@@ -74,7 +74,7 @@ module.exports = {
       _: any,
       { registrationInput }: { registrationInput: IRegistrationUserInput },
     ) => {
-      console.log('registrationInput', registrationInput);
+      // console.log('registrationInput', registrationInput);
       const { firstName, lastName, email, password } = registrationInput;
       const user = await UserModel.findOne({ email: email });
       if (user) {
@@ -98,7 +98,7 @@ module.exports = {
       _: any,
       { loginInput }: { loginInput: ILoginUserInput },
     ) => {
-      console.log('loginInput', loginInput);
+      // console.log('loginInput', loginInput);
       const { email, password } = loginInput;
       const user = await UserModel.findOne({ email: email });
       if (!user) {
@@ -203,12 +203,72 @@ module.exports = {
         };
       }
     },
+    updateEducationalBucketListItem: async (
+      _: any,
+      {
+        educationalItemInput,
+      }: { educationalItemInput: IEducationalBucketListInput },
+      context: any,
+    ) => {
+      if (!context.user) {
+        return { message: 'Failed tp update' };
+      } else {
+        const user = context.user;
+        const {
+          _id,
+          category,
+          title,
+          about,
+          subject,
+          desiredGoal,
+          reasonForLearning,
+          desiredCompletionDate,
+          completed,
+          completedOnTime,
+        } = educationalItemInput;
+        // console.log(_id);
+        EducationalModel.findByIdAndUpdate(
+          _id,
+          {
+            _id: _id,
+            userId: user._id,
+            category: category,
+            title: title,
+            about: about,
+            subject: subject,
+            desiredGoal: desiredGoal,
+            reasonForLearning: reasonForLearning,
+            desiredCompletionDate: desiredCompletionDate,
+            completed: completed,
+            completedOnTime: completedOnTime,
+          },
+          function (err: any) {
+            if (err) {
+              console.log(err);
+            }
+          },
+        );
+        return {
+          _id: _id,
+          userId: user._id,
+          category: category,
+          title: title,
+          about: about,
+          subject: subject,
+          desiredGoal: desiredGoal,
+          reasonForLearning: reasonForLearning,
+          desiredCompletionDate: desiredCompletionDate,
+          completed: completed,
+          completedOnTime: completedOnTime,
+        };
+      }
+    },
     addPersonalBucketListItem: async (
       _: any,
       { personalItemInput }: { personalItemInput: IPersonalBucketListInput },
       context: any,
     ) => {
-      console.log('personalItemInput', personalItemInput);
+      // console.log('personalItemInput', personalItemInput);
       if (!context.user) {
         return { message: 'Failed to add' };
       } else {
@@ -253,6 +313,44 @@ module.exports = {
         };
       }
     },
+    updatePersonalBucketListItem: async (
+      _: any,
+      { personalItemInput }: { personalItemInput: IPersonalBucketListInput },
+      context: any,
+    ) => {
+      if (!context.user) {
+        return { message: 'Failed to update' };
+      } else {
+        const user = context.user;
+        const {
+          _id,
+          category,
+          title,
+          about,
+          areaOfLife,
+          desiredGoal,
+          reasonForGoal,
+          desiredCompletionDate,
+          completed,
+          completedOnTime,
+        } = personalItemInput;
+        PersonalModel.findOneAndUpdate(
+          { _id: _id },
+          {
+            userId: user._id,
+            category: category,
+            title: title,
+            about: about,
+            areaOfLife: areaOfLife,
+            desiredGoal: desiredGoal,
+            reasonForGoal: reasonForGoal,
+            desiredCompletionDate: desiredCompletionDate,
+            completed: completed,
+            completedOnTime: completedOnTime,
+          },
+        );
+      }
+    },
     deleteBucketListItem: async (
       _: any,
       { deleteItemInput }: { deleteItemInput: IDeleteItemId },
@@ -264,7 +362,7 @@ module.exports = {
       } else {
         const user = context.user;
         if (category === 'Travel') {
-          const index = user.travelBucketListItems.findIndexOf(_id);
+          const index = user.travelBucketListItems.indexOf(_id);
           if (index > -1) {
             await user.travelBucketListItems.splice(index, 1);
             user.save();
@@ -274,16 +372,21 @@ module.exports = {
         }
         if (category === 'Education') {
           const index = user.educationalBucketListItems.indexOf(_id);
+          console.log(user.educationalBucketListItems);
+          console.log(index);
           if (index > -1) {
             await user.educationalBucketListItems.splice(index, 1);
             user.save();
+            console.log(user.educationalBucketListItems);
           }
           await EducationalModel.findOneAndDelete(_id);
           return { message: 'Deleted successfully' };
         }
 
         if (category === 'Personal') {
-          const index = user.personalBucketListItems.findIndexOf(_id);
+          console.log('HERE!!!!!');
+          const index = user.personalBucketListItems.indexOf(_id);
+          console.log(index);
           if (index > -1) {
             await user.personalBucketListItems.splice(index, 1);
             user.save();

@@ -12,7 +12,7 @@ const getUserFromToken = async (token: string) => {
     //headers cannot be passed as a string
     const userId = jwt.verify(token, secret);
     const user = await UserModel.findOne({ _id: userId });
-    console.log('Auth successful');
+    // console.log('Auth successful');
     return user;
   } catch (error) {
     console.log('ERROR', error);

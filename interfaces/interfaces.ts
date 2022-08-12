@@ -11,6 +11,7 @@ export interface ILoginUserInput {
 }
 
 export interface ITravelBucketListInput {
+  _id?: string;
   userId: string;
   category: string;
   title: string;
@@ -25,6 +26,7 @@ export interface ITravelBucketListInput {
 }
 
 export interface IEducationalBucketListInput {
+  _id?: string;
   userId: string;
   category: string;
   title: string;
@@ -38,6 +40,7 @@ export interface IEducationalBucketListInput {
 }
 
 export interface IPersonalBucketListInput {
+  _id?: string;
   userId: string;
   category: string;
   title: string;

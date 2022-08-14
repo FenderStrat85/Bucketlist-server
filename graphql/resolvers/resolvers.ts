@@ -7,7 +7,6 @@ const {
 const { AuthenticationError } = require('apollo-server');
 const bcrypt = require('bcrypt');
 
-import { idText } from 'typescript';
 import {
   IRegistrationUserInput,
   ILoginUserInput,
@@ -334,9 +333,10 @@ module.exports = {
           completed,
           completedOnTime,
         } = personalItemInput;
-        PersonalModel.findOneAndUpdate(
-          { _id: _id },
+        PersonalModel.findByIdAndUpdate(
+          _id,
           {
+            _id: _id,
             userId: user._id,
             category: category,
             title: title,
@@ -348,7 +348,25 @@ module.exports = {
             completed: completed,
             completedOnTime: completedOnTime,
           },
+          function (err: any) {
+            if (err) {
+              console.log(err);
+            }
+          },
         );
+        return {
+          _id: _id,
+          userId: user._id,
+          category: category,
+          title: title,
+          about: about,
+          areaOfLife: areaOfLife,
+          desiredGoal: desiredGoal,
+          reasonForGoal: reasonForGoal,
+          desiredCompletionDate: desiredCompletionDate,
+          completed: completed,
+          completedOnTime: completedOnTime,
+        };
       }
     },
     deleteBucketListItem: async (
@@ -384,7 +402,6 @@ module.exports = {
         }
 
         if (category === 'Personal') {
-          console.log('HERE!!!!!');
           const index = user.personalBucketListItems.indexOf(_id);
           console.log(index);
           if (index > -1) {

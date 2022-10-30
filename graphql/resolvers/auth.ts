@@ -15,7 +15,7 @@ const getUserFromToken = async (token: string) => {
     // console.log('Auth successful');
     return user;
   } catch (error) {
-    console.log('ERROR', error);
+    console.error('An error has occurred', error);
     return null;
   }
 };

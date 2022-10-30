@@ -16,11 +16,11 @@ const typeDefs = gql`
     category: String!
     title: String!
     about: String!
-    cloudinaryPhotoUrl: String!
+    cloudinaryPhotoUrl: String
     completed: Boolean!
     dateCompleted: String
-    latitude: String!
-    longitude: String!
+    latitude: Float!
+    longitude: Float!
     country: String!
     city: String!
   }
@@ -62,7 +62,7 @@ const typeDefs = gql`
     loginUser(loginInput: LoginUserInput): UserInfo!
     addTravelBucketListItem(
       travelItemInput: TravelBucketListInput
-    ): ConfirmationMessage!
+    ): TravelBucketListItem!
     addEducationalBucketListItem(
       educationalItemInput: EducationalBucketListInput
     ): EducationalBucketListItem!
@@ -116,11 +116,11 @@ const typeDefs = gql`
     category: String!
     title: String!
     about: String!
-    cloudinaryPhotoUrl: String!
+    cloudinaryPhotoUrl: String
     completed: Boolean!
     dateCompleted: String
-    latitude: String!
-    longitude: String!
+    latitude: Float!
+    longitude: Float!
     country: String!
     city: String!
   }

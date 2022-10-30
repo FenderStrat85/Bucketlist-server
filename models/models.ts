@@ -57,7 +57,6 @@ const travelSchema = new Schema({
   },
   cloudinaryPhotoUrl: {
     type: String,
-    required: true,
   },
   completed: {
     type: Boolean,

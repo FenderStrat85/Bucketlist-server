@@ -16,11 +16,11 @@ export interface ITravelBucketListInput {
   category: string;
   title: string;
   about: string;
-  cloudinaryPhotoUrl: string;
+  cloudinaryPhotoUrl?: string;
   completed: boolean;
   dateCompleted: string;
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
   country: string;
   city: string;
 }

@@ -49,21 +49,22 @@ module.exports = {
           const item = await EducationalModel.findOne({
             _id: educationalBucketListItems[i],
           });
-          itemsToReturn.push(item);
+          if (item) itemsToReturn.push(item);
         }
         for (let i = 0; i < travelBucketListItems.length; i++) {
           const item = await TravelModel.findOne({
             _id: travelBucketListItems[i],
           });
-          itemsToReturn.push(item);
+          if (item) itemsToReturn.push(item);
         }
         for (let i = 0; i < personalBucketListItems.length; i++) {
           const item = await PersonalModel.findOne({
             _id: personalBucketListItems[i],
           });
-          itemsToReturn.push(item);
+          console.log(personalBucketListItems[i]);
+          if (item) itemsToReturn.push(item);
         }
-        // console.log(itemsToReturn);
+        console.log(itemsToReturn);
         return itemsToReturn;
       }
     },
@@ -148,7 +149,20 @@ module.exports = {
         });
         user.travelBucketListItems.push(newTravelItem._id);
         user.save();
-        return { message: 'Added successfully' };
+        return {
+          _id: newTravelItem._id,
+          userId: user._id,
+          category: category,
+          title: title,
+          about: about,
+          cloudinaryPhotoUrl: cloudinaryPhotoUrl,
+          completed: completed,
+          dateCompleted: dateCompleted,
+          latitude: latitude,
+          longitude: longitude,
+          country: country,
+          city: city,
+        };
       }
     },
     addEducationalBucketListItem: async (
@@ -385,7 +399,7 @@ module.exports = {
             await user.travelBucketListItems.splice(index, 1);
             user.save();
           }
-          await TravelModel.findOneAndDelete({ _id: _id });
+          await TravelModel.findOneAndDelete(_id);
           return { message: 'Deleted successfully' };
         }
         if (category === 'Education') {

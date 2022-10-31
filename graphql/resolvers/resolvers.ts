@@ -165,6 +165,63 @@ module.exports = {
         };
       }
     },
+    updateTravelBucketListItem: async (
+      _: any,
+      { travelItemInput }: { travelItemInput: ITravelBucketListInput },
+      context: any,
+    ) => {
+      if (!context.user) {
+        return { message: 'Failed to update' };
+      } else {
+        const user = context.user;
+        const {
+          _id,
+          category,
+          title,
+          about,
+          country,
+          city,
+          completed,
+          cloudinaryPhotoUrl,
+          longitude,
+          latitude,
+        } = travelItemInput;
+        TravelModel.findByIdAndUpdate(
+          _id,
+          {
+            _id: _id,
+            userId: user._id,
+            category: category,
+            title: title,
+            about: about,
+            country: country,
+            city: city,
+            completed: completed,
+            latitude: latitude,
+            longitude: longitude,
+            cloudinaryPhotoUrl: cloudinaryPhotoUrl,
+          },
+          function (err: any) {
+            if (err) {
+              console.log(err);
+            }
+          },
+        );
+        return {
+          _id: _id,
+          userId: user._id,
+          category: category,
+          title: title,
+          about: about,
+          country: country,
+          city: city,
+          completed: completed,
+          latitude: latitude,
+          longitude: longitude,
+          cloudinaryPhotoUrl: cloudinaryPhotoUrl,
+        };
+      }
+    },
     addEducationalBucketListItem: async (
       _: any,
       {
@@ -239,7 +296,6 @@ module.exports = {
           completed,
           completedOnTime,
         } = educationalItemInput;
-        // console.log(_id);
         EducationalModel.findByIdAndUpdate(
           _id,
           {

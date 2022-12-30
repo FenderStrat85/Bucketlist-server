@@ -12,10 +12,6 @@ The technologies used to build this app:
 
 [MongoDB](https://www.mongodb.com/home), [Mongoose](https://mongoosejs.com/), [NodeJs](https://nodejs.org/en/), [Apollo Server](https://www.apollographql.com/docs/apollo-server/), [GraphQL](https://graphql.org/), [JWT](https://jwt.io/)
 
-### Others
-
-, [PeerJS](https://peerjs.com/), [Socket.io](https://socket.io/), [Cloudinary](http://cloudinary.com/), [Markerjs](https://markerjs.com/products/markerjs/)
-
 ## Getting Started
 
 There's a few things you need to do to get started:

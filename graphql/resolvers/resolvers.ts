@@ -35,7 +35,6 @@ module.exports = {
 
   Query: {
     getBucketListItems: async (_: any, args: any, context: any) => {
-      // console.log('Inside getBucketListItems');
       if (!context.user) {
         return { message: 'Unable to retrieve data' };
       } else {
@@ -61,10 +60,8 @@ module.exports = {
           const item = await PersonalModel.findOne({
             _id: personalBucketListItems[i],
           });
-          console.log(personalBucketListItems[i]);
           if (item) itemsToReturn.push(item);
         }
-        console.log(itemsToReturn);
         return itemsToReturn;
       }
     },
@@ -74,7 +71,6 @@ module.exports = {
       _: any,
       { registrationInput }: { registrationInput: IRegistrationUserInput },
     ) => {
-      // console.log('registrationInput', registrationInput);
       const { firstName, lastName, email, password } = registrationInput;
       const user = await UserModel.findOne({ email: email });
       if (user) {
@@ -98,7 +94,6 @@ module.exports = {
       _: any,
       { loginInput }: { loginInput: ILoginUserInput },
     ) => {
-      // console.log('loginInput', loginInput);
       const { email, password } = loginInput;
       const user = await UserModel.findOne({ email: email });
       if (!user) {
@@ -460,12 +455,9 @@ module.exports = {
         }
         if (category === 'Education') {
           const index = user.educationalBucketListItems.indexOf(_id);
-          console.log(user.educationalBucketListItems);
-          console.log(index);
           if (index > -1) {
             await user.educationalBucketListItems.splice(index, 1);
             user.save();
-            console.log(user.educationalBucketListItems);
           }
           await EducationalModel.findOneAndDelete(_id);
           return { message: 'Deleted successfully' };
@@ -473,7 +465,6 @@ module.exports = {
 
         if (category === 'Personal') {
           const index = user.personalBucketListItems.indexOf(_id);
-          console.log(index);
           if (index > -1) {
             await user.personalBucketListItems.splice(index, 1);
             user.save();
